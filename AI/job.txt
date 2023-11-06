@@ -1,0 +1,115 @@
+This code is solving the "Job Sequencing with Deadlines" problem to find the maximum profit sequence of jobs that can be scheduled within a given time limit. The problem statement includes a set of jobs, each with a name, a deadline, and a profit. The goal is to schedule the jobs in a way that maximizes the total profit while adhering to the given deadlines. Here's a step-by-step explanation of the code:
+
+1. Define the job details in a list named `arr`. Each element in the list is itself a list representing a job with three attributes:
+   - The job name (a string).
+   - The job deadline (an integer).
+   - The job profit (an integer).
+
+2. Print a message to indicate that the code will find the maximum profit sequence of jobs.
+
+3. Calculate the total number of jobs (the length of the `arr` list) and define a variable `t` representing the time limit.
+
+4. Sort the list of jobs in decreasing order of profit. This is done using a simple bubble sort. The jobs with higher profits will be considered first.
+
+5. Initialize two lists:
+   - `result`: A list of booleans to keep track of free time slots. The list is of length `t` and is initially filled with `False`.
+   - `job`: A list to store the sequence of jobs scheduled within the time limit. It is also of length `t` and is initially filled with '-1'.
+
+6. Iterate through all the given jobs in the sorted order to schedule them:
+   - For each job, find a free time slot starting from the last possible slot (index `t - 1`) and moving backwards. The idea is to schedule the job as close to its deadline as possible to maximize profit.
+
+7. For each job, check for free slots from the last possible slot to the beginning. If a free slot is found, mark it as scheduled by setting `result[j]` to `True` and add the job name to the `job` list at the corresponding position.
+
+8. After processing all the jobs, the `job` list will contain the sequence of jobs scheduled to maximize profit.
+
+9. Print the sequence of jobs that will yield the maximum profit.
+
+In summary, the code sorts the jobs by profit in decreasing order and schedules them as close to their respective deadlines as possible within the given time limit. It prints the sequence of jobs to be scheduled for maximum profit.
+
+
+
+
+---------------------------------------------------------------------------------------------
+
+
+Certainly, let's go through the code line by line and explain each part:
+
+```python
+arr = [
+    ['a', 2, 100], 
+    ['b', 2, 20], 
+    ['c', 1, 40], 
+    ['d', 3, 35], 
+    ['e', 1, 25]
+]
+```
+- In this section, a list named `arr` is defined, representing a set of jobs. Each job is represented as a list containing three elements:
+    - The job name (a string).
+    - The job deadline (an integer).
+    - The job profit (an integer).
+
+```python
+print("Following is the maximum profit sequence of Jobs: ")
+```
+- This line simply prints a message to indicate that the code will find the maximum profit sequence of jobs.
+
+```python
+# Length of array
+n = len(arr)
+t = 3
+```
+- Here, `n` is assigned the length of the `arr` list (the number of jobs), and `t` is set to 3, representing the time limit within which the jobs need to be scheduled.
+
+```python
+# Sort all jobs according to
+# decreasing order of profit
+for i in range(n):
+    for j in range(n - 1 - i):
+        if arr[j][2] < arr[j + 1][2]:
+            arr[j], arr[j + 1] = arr[j + 1], arr[j]
+```
+- This is a simple sorting step where the jobs in the `arr` list are sorted in decreasing order of profit using a bubble sort algorithm. Jobs with higher profits will be scheduled first. The `arr` list is modified in place to reflect the sorted order.
+
+```python
+# To keep track of free time slots
+result = [False] * t
+
+# To store result (Sequence of jobs)
+job = ['-1'] * t
+```
+- Two lists are initialized:
+    - `result`: A list of booleans with a length of `t` (the time limit) to keep track of free time slots. Initially, all slots are marked as free (False).
+    - `job`: A list of the same length as `result` to store the sequence of jobs scheduled within the time limit. Initially, all slots are marked as '-1', indicating no job is scheduled in those slots.
+
+```python
+# Iterate through all given jobs
+for i in range(len(arr)):
+```
+- The code now iterates through all the given jobs to schedule them within the time limit.
+
+```python
+    # Find a free slot for this job
+    # (Note that we start from the
+    # last possible slot)
+    for j in range(min(t - 1, arr[i][1] - 1), -1, -1):
+```
+- For each job, it starts by finding a free slot to schedule the job. It begins from the last possible slot and moves backward. The choice of starting from the last possible slot helps schedule jobs closer to their respective deadlines while maximizing profit.
+
+```python
+        # Free slot found
+        if result[j] is False:
+            result[j] = True
+            job[j] = arr[i][0]
+            break
+```
+- If a free slot is found, the code marks the slot as scheduled by setting `result[j]` to `True`. It also adds the name of the job to the `job` list at the corresponding position. This job is now scheduled within the time limit.
+
+```python
+# Print the sequence
+print(job)
+```
+- Finally, the code prints the `job` list, which represents the sequence of jobs that should be scheduled to maximize profit within the time limit.
+
+In summary, this code sorts the jobs by profit in decreasing order, schedules them as close to their respective deadlines as possible within the given time limit, and prints the sequence of jobs to be scheduled for maximum profit.
+
+

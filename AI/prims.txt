@@ -1,0 +1,89 @@
+Certainly, let's go through the code line by line and explain each part:
+
+```python
+INF = 9999999
+```
+- This line sets a constant `INF` to a large value, which is used to represent infinity. In this context, it's used to represent an edge weight that is not present.
+
+```python
+V = 5
+```
+- This line defines the number of vertices in the graph. In this example, there are 5 vertices.
+
+```python
+G = [[0, 9, 75, 0, 0],
+     [9, 0, 95, 19, 42],
+     [75, 95, 0, 51, 66],
+     [0, 19, 51, 0, 31],
+     [0, 42, 66, 31, 0]]
+```
+- This block of code defines a 2D array `G` to represent the adjacency matrix of the graph. The values in the matrix represent the weights of the edges between vertices. In this example, it represents a weighted undirected graph with 5 vertices and corresponding edge weights.
+
+```python
+selected = [0, 0, 0, 0, 0]
+```
+- This line initializes a list named `selected` to keep track of selected vertices. It's initially filled with zeros (0), and the indices correspond to vertices.
+
+```python
+no_edge = 0
+```
+- This variable `no_edge` is initialized to 0. It will keep track of the number of edges included in the minimum spanning tree.
+
+```python
+selected[0] = True
+```
+- It marks the first vertex as selected by setting `selected[0]` to `True`. This is often a starting point in the Prim's algorithm.
+
+```python
+print("Edge : Weight\n")
+```
+- This line prints a header for the output, indicating that it will display edges and their corresponding weights.
+
+```python
+while (no_edge < V - 1):
+```
+- This is the main loop for the Prim's algorithm. It continues until `no_edge` is less than `V - 1`, which means that not all vertices are included in the minimum spanning tree.
+
+```python
+    minimum = INF
+    x = 0
+    y = 0
+```
+- Variables `minimum`, `x`, and `y` are initialized to prepare for finding the minimum-weight edge.
+
+```python
+    for i in range(V):
+        if selected[i]:
+```
+- This loop iterates through all vertices in the graph (from 0 to `V-1`). It checks if a vertex is already selected (included in the minimum spanning tree).
+
+```python
+            for j in range(V):
+                if ((not selected[j]) and G[i][j]):
+```
+- Within the nested loop, it checks if another vertex (`j`) is not selected and there is an edge (`G[i][j]` is non-zero).
+
+```python
+                    if minimum > G[i][j]:
+                        minimum = G[i][j]
+                        x = i
+                        y = j
+```
+- If the weight of the edge from `i` to `j` is less than the current minimum, it updates the `minimum` weight, and it keeps track of the vertices (`x` and `y`) connected by this edge.
+
+```python
+    print(str(x) + "-" + str(y) + ":" + str(G[x][y]))
+```
+- After finding the minimum-weight edge, it prints the edge in the format "x-y: weight."
+
+```python
+    selected[y] = True
+    no_edge += 1
+```
+- It marks vertex `y` as selected (included in the minimum spanning tree) and increments the count of included edges (`no_edge`).
+
+This code essentially implements Prim's algorithm to find the minimum spanning tree of a given weighted graph and prints the edges along with their weights. The loop continues until V - 1 edges have been included in the spanning tree.
+
+
+
+------------------------------------------------------------------------------------

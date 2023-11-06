@@ -1,0 +1,134 @@
+Certainly, let's go through the code line by line and explain each part:
+
+```python
+# Define an undirected graph as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'D', 'E'],
+    'C': ['A', 'F'],
+    'D': ['B'],
+    'E': ['B', 'F'],
+    'F': ['C', 'E']
+}
+```
+- This part defines an undirected graph using an adjacency list. It's a Python dictionary where each key represents a node, and the corresponding value is a list of neighbors to which the node is connected. The graph includes nodes 'A', 'B', 'C', 'D', 'E', and 'F' with their respective connections.
+
+```python
+#-----------------------DFS---------------------------
+```
+- This is a comment indicating that the code below will demonstrate Depth-First Search (DFS).
+
+```python
+def dfs(graph, node, visited):
+```
+- This line defines a function named `dfs`. It is a recursive function that performs a Depth-First Search on the graph. It takes three parameters:
+    - `graph`: The graph represented as an adjacency list.
+    - `node`: The current node to explore.
+    - `visited`: A set that keeps track of visited nodes.
+
+```python
+    if node not in visited:
+```
+- This condition checks if the current `node` has not been visited yet.
+
+```python
+        print(node, end=' ')
+```
+- If the `node` has not been visited, it prints the node without moving to a new line.
+
+```python
+        visited.add(node)
+```
+- It adds the `node` to the `visited` set to mark it as visited.
+
+```python
+        for neighbor in graph[node]:
+```
+- It iterates through the neighbors of the current `node`.
+
+```python
+            dfs(graph, neighbor, visited)
+```
+- For each neighbor, it recursively calls the `dfs` function to explore that neighbor. This process continues until all connected nodes are visited.
+
+```python
+# Initialize a set to keep track of visited nodes
+visited = set()
+```
+- Here, an empty set called `visited` is created to keep track of visited nodes during the DFS traversal.
+
+```python
+# Call DFS starting from the 'A' node (or any other starting node)
+print("DFS Traversal:")
+dfs(graph, 'A', visited)
+```
+- This line calls the `dfs` function with the graph, starting from node 'A', and passes the `visited` set to keep track of visited nodes. It prints "DFS Traversal:" as a header for the output.
+
+```python
+#-----------------------BFS---------------------------
+```
+- This is a comment indicating that the code below will demonstrate Breadth-First Search (BFS).
+
+```python
+from collections import deque
+```
+- This line imports the `deque` class from the `collections` module. A deque (double-ended queue) will be used to implement the queue for BFS.
+
+```python
+def bfs(graph, start):
+```
+- This line defines a function named `bfs`. It implements Breadth-First Search (BFS) on the graph. It takes two parameters:
+    - `graph`: The graph represented as an adjacency list.
+    - `start`: The node from which the BFS will begin.
+
+```python
+    visited = set()
+    queue = deque([start])
+```
+- It initializes a set `visited` to keep track of visited nodes and a queue `queue` using a deque. The queue starts with the `start` node, and the `start` node is added to the `visited` set.
+
+```python
+    print()
+
+    print("BFS Traversal:")
+```
+- These lines add a blank line and print "BFS Traversal:" as a header for the BFS output.
+
+```python
+    while queue:
+```
+- This initiates a loop that continues while there are nodes in the `queue`.
+
+```python
+        node = queue.popleft()
+```
+- It dequeues (removes and returns) the first node from the `queue` as `node`. This node is considered for exploration in the BFS.
+
+```python
+        print(node, end=' ')
+```
+- It prints the `node` without moving to a new line.
+
+```python
+        for neighbor in graph[node]:
+```
+- It iterates through the neighbors of the current `node`.
+
+```python
+            if neighbor not in visited:
+```
+- This condition checks if the neighbor has not been visited yet.
+
+```python
+                queue.append(neighbor)
+                visited.add(neighbor)
+```
+- If the neighbor has not been visited, it is enqueued (added to the `queue`) for future exploration, and it is also added to the `visited` set to mark it as visited.
+
+```python
+# Call BFS starting from the 'A' node (or any other starting node)
+bfs(graph, 'A')
+```
+- This line calls the `bfs` function with the graph, starting from node 'A'. It initiates the BFS traversal.
+
+Overall, this code demonstrates both Depth-First Search (DFS) and Breadth-First Search (BFS) on an undirected graph represented as an adjacency list. It prints the order in which nodes are visited during these traversal algorithms.

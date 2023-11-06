@@ -1,0 +1,139 @@
+This code appears to be an implementation of Kruskal's algorithm for finding the minimum cost spanning tree in a weighted graph. The graph is represented as an adjacency matrix, and the code works by repeatedly selecting the edge with the minimum weight while ensuring that no cycles are formed in the process. Here's a detailed explanation of the code:
+
+1. The code initializes several variables, including:
+   - `inf`: A large value (999999) used to represent infinity.
+   - `k`, `a`, `b`, `u`, `v`, `n`, and `ne` are initialized to 0 and 1.
+   - `mincost` is initialized to 0.
+   - `cost` is a 2D array representing the adjacency matrix of the graph, where `cost[i][j]` represents the weight of the edge from node `i` to node `j`.
+   - `p` is an array used for disjoint-set data structure operations.
+
+2. The `applyfind` function is defined. This function performs the "find" operation in the disjoint-set data structure. It returns the representative (root) of the set to which element `i` belongs.
+
+3. The `applyunion` function is defined. This function performs the "union" operation in the disjoint-set data structure. It merges the sets to which elements `i` and `j` belong if they are not already in the same set.
+
+4. The value of `n` is set to 3, indicating that the graph has 3 nodes.
+
+5. The code iterates through the elements of the `cost` matrix and replaces any zero weights (diagonal elements, representing self-loops) with the value of `inf`. This ensures that self-loops are not considered in the minimum spanning tree.
+
+6. The code then enters the main part of Kruskal's algorithm:
+
+   - It prints "Minimum Cost Spanning Tree."
+
+7. In the main loop, while the number of edges `ne` is less than `n - 1` (where `n` is the number of nodes), the code continues to find and add edges to the minimum spanning tree.
+
+8. Inside the loop, the code searches for the minimum weight edge (`min_val`) in the `cost` matrix. The variables `a`, `b`, `u`, and `v` keep track of the indices of the nodes corresponding to the selected edge.
+
+9. The code applies the `applyfind` operation to find the representative of the sets to which nodes `u` and `v` belong. This is used to check if the selected edge forms a cycle or not.
+
+10. If `applyunion(u, v)` returns 1, it means that the nodes `u` and `v` were in different sets, and combining them didn't create a cycle. In this case, the code prints the edge from `a` to `b` and adds the edge weight to `mincost`.
+
+11. The weight of the selected edge is then marked as "infinite" (999) to prevent it from being considered in future iterations.
+
+12. `ne` is incremented to keep track of the number of edges added to the minimum spanning tree.
+
+13. Finally, the code prints the minimum cost of the spanning tree.
+
+In summary, this code finds the minimum cost spanning tree in a graph using Kruskal's algorithm and prints the edges and their corresponding weights that make up the spanning tree.
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------
+
+
+Certainly, let's go through the code line by line and explain each part:
+
+```python
+inf = 999999
+k, a, b, u, v, n, ne = 0, 0, 0, 0, 0, 0, 1
+mincost = 0
+cost = [[0, 10, 20], [12, 0, 15], [16, 18, 0]]
+p = [0] * 9
+```
+- These lines initialize several variables and data structures:
+    - `inf` is set to a large value, 999999, representing infinity or an unreasonably high cost.
+    - `k`, `a`, `b`, `u`, `v`, `n`, and `ne` are all initialized to 0. `k` and `ne` are not used in the code.
+    - `mincost` is initialized to 0, which will store the total minimum cost of the spanning tree.
+    - `cost` is a 2D array representing the adjacency matrix of the graph. It specifies the weights of edges between nodes.
+    - `p` is an array that is not used in the code, and it's initialized with zeros.
+
+```python
+def applyfind(i):
+    while p[i] != 0:
+        i = p[i]
+    return i
+```
+- This function, `applyfind`, is used to perform the "find" operation in a disjoint-set data structure. It traverses the parent pointers until it reaches the root of the set and returns the representative (root).
+
+```python
+def applyunion(i, j):
+    if i != j:
+        p[j] = i
+        return 1
+    return 0
+```
+- This function, `applyunion`, is used to perform the "union" operation in a disjoint-set data structure. It merges two sets by setting the parent of one representative (root) to the other representative if they are not the same. It returns 1 if the union was successful and 0 if the elements were already in the same set.
+
+```python
+n = 3
+```
+- Here, `n` is set to 3, indicating that there are three nodes in the graph.
+
+```python
+for i in range(n):
+    for j in range(n):
+        if cost[i][j] == 0:
+            cost[i][j] = inf
+```
+- These loops iterate through the elements of the `cost` matrix (adjacency matrix). If an edge weight is 0 (which would represent no direct connection or a self-loop), it is replaced with `inf` (representing infinite weight). This step ensures that self-loops are not considered in the minimum spanning tree.
+
+```python
+print("Minimum Cost Spanning Tree:\n")
+```
+- This line prints a header to indicate that the code will find and display the minimum cost spanning tree.
+
+The code then enters the main part of Kruskal's algorithm to find the minimum spanning tree.
+
+```python
+while ne < n:
+    min_val = inf
+    for i in range(n):
+        for j in range(n):
+            if cost[i][j] < min_val:
+                min_val = cost[i][j]
+                a = u = i
+                b = v = j
+```
+- This `while` loop continues until `ne` (the number of edges added to the spanning tree) is less than `n - 1` (where `n` is the number of nodes in the graph).
+- Inside the loop, it searches for the edge with the minimum weight (`min_val`) by iterating through the elements of the `cost` matrix. It keeps track of the nodes `a` and `b` corresponding to the selected edge and also the nodes `u` and `v` for the disjoint-set operations.
+
+```python
+u = applyfind(u)
+v = applyfind(v)
+```
+- The `applyfind` operation is used to find the representatives (roots) of the sets to which nodes `u` and `v` belong. This is important for checking if the selected edge forms a cycle in the spanning tree.
+
+```python
+if applyunion(u, v) != 0:
+    print(f"{a} -> {b}")
+    mincost += min_val
+```
+- The `applyunion` operation is used to combine the sets to which nodes `u` and `v` belong. If the operation returns 1, it means that the nodes were in different sets, and combining them did not create a cycle. In this case, the code prints the edge from node `a` to `b` and adds the edge weight to `mincost`.
+
+```python
+cost[a][b] = cost[b][a] = 999
+ne += 1
+```
+- The selected edge is marked as used by setting its weight to 999 (a large value) to prevent it from being considered in future iterations. `ne` is incremented to keep track of the number of edges added to the spanning tree.
+
+```python
+print(f"\n\tMinimum cost = \n{mincost}")
+```
+- Finally, the code prints the minimum cost of the spanning tree after all iterations.
+
+In summary, this code uses Kruskal's algorithm to find the minimum cost spanning tree in a graph and prints the edges and their corresponding weights that form the spanning tree. It uses disjoint-set operations to detect and avoid cycles.
+
+------------------------------------------------------------------------------------

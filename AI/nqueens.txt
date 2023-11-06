@@ -1,0 +1,113 @@
+Sure, let's go through the code line by line, explaining each part:
+
+```python
+class NQueens:
+```
+- The code defines a class named `NQueens` to encapsulate the N-Queens problem-solving logic.
+
+```python
+    def __init__(self, n):
+        self.n = n
+        self.board = [-1] * n
+        self.solutions = []
+```
+- The class constructor takes a single argument `n`, which represents the size of the chessboard (N×N).
+- `self.n` stores the size of the chessboard.
+- `self.board` is a list that represents the chessboard, where each index corresponds to a row, and the value at that index represents the column where a queen is placed. It's initialized with -1 to indicate that no queens are placed initially.
+- `self.solutions` is a list to store found solutions.
+
+```python
+    def is_safe(self, row, col):
+        for i in range(row):
+            if (
+                self.board[i] == col
+                or self.board[i] - i == col - row
+                or self.board[i] + i == col + row
+            ):
+                return False
+        return True
+```
+- The `is_safe` method checks whether it's safe to place a queen at a specific row and column. It examines the entire board to determine if there is a conflict (another queen threatening the current position).
+- The conditions checked are:
+    - `self.board[i] == col`: Checks if there is a queen in the same column as the one being considered.
+    - `self.board[i] - i == col - row`: Checks if there is a queen in the diagonal from top-left to bottom-right.
+    - `self.board[i] + i == col + row`: Checks if there is a queen in the diagonal from top-right to bottom-left.
+- If any of these conditions are met, it returns `False`, indicating it's not safe to place a queen; otherwise, it returns `True`.
+
+```python
+    def solve(self, method="backtracking"):
+        if method == "backtracking":
+            self.backtrack(0)
+        elif method == "branch_and_bound":
+            self.branch_and_bound(0)
+```
+- The `solve` method initiates the solution process based on the specified method (defaulting to "backtracking"). It calls either `self.backtrack` or `self.branch_and_bound` depending on the method provided.
+
+```python
+    def backtrack(self, row):
+        if row == self.n:
+            self.solutions.append(list(self.board))
+            return
+        for col in range(self.n):
+            if self.is_safe(row, col):
+                self.board[row] = col
+                self.backtrack(row + 1)
+                self.board[row] = -1
+```
+- The `backtrack` method uses backtracking to solve the N-Queens problem. It recursively explores all possible queen placements row by row.
+- If it reaches a complete solution (i.e., `row == self.n`), it appends the current board configuration to the `self.solutions` list.
+- If it's safe to place a queen at the current row and column, it sets the board accordingly and proceeds to the next row.
+- After exploring all possibilities for a row, it resets the board configuration for backtracking.
+
+```python
+    def branch_and_bound(self, row):
+        if row == self.n:
+            self.solutions.append(list(self.board))
+            return
+        for col in range(self.n):
+            if self.is_safe(row, col):
+                self.board[row] = col
+                self.branch_and_bound(row + 1)
+                self.board[row] = -1
+```
+- The `branch_and_bound` method is similar to `backtrack`, using the branch-and-bound approach to solve the N-Queens problem.
+
+```python
+    def print_solutions(self):
+        for solution in self.solutions:
+            for row in solution:
+                line = ["Q" if col == row else "." for col in range(self.n)]
+                print(" ".join(line))
+            print()
+```
+- The `print_solutions` method prints all the solutions stored in the `self.solutions` list.
+- For each solution, it generates a visual representation with queens as 'Q' and empty squares as '.'.
+
+```python
+# Example usage:
+n = 4  # Change n to the desired board size
+n_queens_backtracking = NQueens(n)
+n_queens_branch_and_bound = NQueens(n)
+
+print("Solutions using Backtracking:")
+n_queens_backtracking.solve("backtracking")
+n_queens_backtracking.print_solutions()
+
+print("Solutions using Branch and Bound:")
+n_queens_branch_and_bound.solve("branch_and_bound")
+n_queens_branch_and_bound.print_solutions()
+```
+- The code provides an example of how to use the `NQueens` class. It sets the desired board size (`n`) and creates two instances of the class: one for backtracking and one for branch-and-bound.
+- It then prints solutions using both methods: backtracking and branch-and-bound. It calls the `solve` method with the respective method name and prints the solutions using `print_solutions`.
+
+Overall, this code demonstrates how to solve the N-Queens problem using both backtracking and branch-and-bound methods, and it provides a way to visualize the solutions.
+
+
+
+
+
+
+
+
+
+
